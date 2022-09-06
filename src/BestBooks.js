@@ -4,6 +4,7 @@ import img from './images/bokke.jpg';
 import ModalBook  from './modal';
 import Button from 'react-bootstrap/Button';
 import Carousel from 'react-bootstrap/Carousel';
+import UpdateBook from './update';
 
 class BestBooks extends React.Component {
   constructor(props) {
@@ -11,7 +12,8 @@ class BestBooks extends React.Component {
     this.state = {
 
       show:false,
-      books: []
+      books: [],
+      showupdate:false
     }
   }
 
@@ -19,7 +21,7 @@ class BestBooks extends React.Component {
 
   componentDidMount=async()=>{
 
-    await axios.get('https://bookshop767676767676.herokuapp.com/books')
+    await axios.get('http://localhost:3001/books')
     .then(result=>{
 
       this.setState({
@@ -29,6 +31,21 @@ class BestBooks extends React.Component {
       
     })
   }
+  deleteHandle=(id)=>{
+  
+  
+    axios
+    .delete(`http://localhost:3001/deletebook/${id}`) 
+    .then(result =>{
+      this.setState({
+        books:result.data
+      })
+      
+  
+   })}
+
+
+
   
  handeleclose=()=>{
 
@@ -55,19 +72,24 @@ class BestBooks extends React.Component {
  }
 
  
+handleUpdate=()=>{
 
- deleteHandle=(id)=>{
-  
-  
-  axios
-  .delete(`https://bookshop767676767676.herokuapp.com/deletebook/${id}`) 
-  .then(result =>{
-    this.setState({
-      books:result.data
-    })
-    
 
- })}
+  this.setState({
+
+    showupdate:true
+  })
+}
+ 
+handleCloseUpdate=()=>{
+
+
+
+  this.setState({
+
+    showupdate:false
+  })
+}
 
  
 
@@ -80,25 +102,20 @@ class BestBooks extends React.Component {
     return (
       <>
         <ModalBook newData={this.updateBooks} show={this.state.show}  closeShow={this.handeleclose} />
-
-        
-
+         
        
 
         <h2>My Essential Lifelong Learning &amp; Formation Shelf</h2>
 
         <Button variant="secondary"  onClick={this.handlebutton}>ADD YOUR FAV BOOK! </Button>
-
-          
-                  
                     {this.state.books.length ?  
+
                     
-                    
+
                     <Carousel>
                       {this.state.books.map(item => (
                       <Carousel.Item>
 
-                      
                         <img
                           className="d-block w-100"
                           src={img}
@@ -110,17 +127,20 @@ class BestBooks extends React.Component {
                         
                           <h3>{item.title}</h3>
                           <p>{item.description}</p>
+                          <p>{item.status}</p>
+                          <UpdateBook showupdate={this.state.showupdate} updatedData={this.updateBooks}  itemData={item}  showUpdateClose={this.handleCloseUpdate }/>
                         
-                          <Button variant="danger"  onClick={()=>this.deleteHandle(item._id)}>Delete Book </Button>
-                          
+                          <Button variant="danger" style={{marginRight:20}} onClick={()=>this.deleteHandle(item._id)}>Delete Book </Button>
+                          <Button variant="primary"  onClick={this.handleUpdate}>Update Info</Button>
                         </Carousel.Caption>
                       </Carousel.Item>
-
+                        
                       
                      ) )}
 
 
             </Carousel>
+            
                  
         : (
           <h3>No Books Found :(</h3>
@@ -133,3 +153,4 @@ class BestBooks extends React.Component {
 }
 
 export default BestBooks;
+
