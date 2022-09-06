@@ -21,7 +21,7 @@ class BestBooks extends React.Component {
 
   componentDidMount=async()=>{
 
-    await axios.get('http://localhost:3001/books')
+    await axios.get('https://bookshop767676767676.herokuapp.com/books')
     .then(result=>{
 
       this.setState({
@@ -35,7 +35,7 @@ class BestBooks extends React.Component {
   
   
     axios
-    .delete(`http://localhost:3001/deletebook/${id}`) 
+    .delete(`https://bookshop767676767676.herokuapp.com/deletebook/${id}`) 
     .then(result =>{
       this.setState({
         books:result.data
@@ -115,14 +115,12 @@ handleCloseUpdate=()=>{
                     <Carousel>
                       {this.state.books.map(item => (
                       <Carousel.Item>
-
                         <img
                           className="d-block w-100"
                           src={img}
                           alt={item.title}
-                          style={{height: 400 , width:100}}
-                        />
-                        
+                          style={{height: 400 , width:100}}/>
+                      
                         <Carousel.Caption>
                         
                           <h3>{item.title}</h3>
@@ -133,19 +131,15 @@ handleCloseUpdate=()=>{
                           <Button variant="danger" style={{marginRight:20}} onClick={()=>this.deleteHandle(item._id)}>Delete Book </Button>
                           <Button variant="primary"  onClick={this.handleUpdate}>Update Info</Button>
                         </Carousel.Caption>
-                      </Carousel.Item>
-                        
+                      </Carousel.Item>       
                       
                      ) )}
-
-
             </Carousel>
             
                  
         : (
           <h3>No Books Found :(</h3>
         )}
-
 
       </>
     )

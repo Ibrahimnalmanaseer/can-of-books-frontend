@@ -1,5 +1,3 @@
-
-
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
@@ -8,10 +6,6 @@ import axios from 'axios';
 
 
 class ModalBook extends React.Component{
-
-  
-
-
 
   
 handleData=(event)=>{
@@ -28,17 +22,13 @@ handleData=(event)=>{
 
     console.log(obj)
     axios
-    .post('http://localhost:3001/addbook',obj)
+    .post('https://bookshop767676767676.herokuapp.com/addbook',obj)
     .then(result=>{
 
         
         this.props.newData(result.data)
 
-    })
-
-    
-    
-    
+    })   
 }
 
 
@@ -55,20 +45,7 @@ handleData=(event)=>{
           <Modal.Title> Book Details  </Modal.Title>
         </Modal.Header>
         <Modal.Body> 
-        {/* <form onSubmit={this.handleData}>
-          <input type="text" name="title" placeholder='book name' />
-          <br></br>
-          <br></br>
-          <input type="text" name="bookdisc" placeholder='book dic' />
-          <br></br>
-          <br></br>
-          <input type="text" name="status" placeholder='bookstatus' />
-          <br></br>
-          <br></br>
-          <button type='submit'>Add</button>
-
-        </form> */}
-
+      
                     <Form onSubmit={this.handleData}>
                      <Form.Group className="mb-3" controlId="formBasictext" >
                     <Form.Label>Book Title</Form.Label>
@@ -95,44 +72,19 @@ handleData=(event)=>{
                         
                       </Form.Select>
                       </Form.Group>
-
-
-
-                    {/* <Form.Group className="mb-3" controlId="formBasictext">
-                    <Form.Label>Status </Form.Label>
-                    <Form.Control type="text" placeholder="Status" name="status" />
-                    <Form.Text className="text-muted"  >
-                  
-                    </Form.Text>
-                    </Form.Group> */}
                 
                     <Button variant="primary" type="submit" onClick={this.props.closeShow}  >
                     Save!
                     </Button>
-
-
                    
-                    </Form>
-
-
-
-        
+            </Form>          
             
-            
-            
-              </Modal.Body>
+      </Modal.Body>
         
       </Modal>
     </>
         )
     }
-
-
-
-
-
-
-
 
 }
 

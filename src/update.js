@@ -9,10 +9,7 @@ class UpdateBook extends React.Component{
 
 
     handleUp=(event)=>{
-
     event.preventDefault();
-
-
     const obj={
         id:this.props.itemData._id,
         title:event.target.title.value,
@@ -20,7 +17,7 @@ class UpdateBook extends React.Component{
        }
 
     axios
-    .put(`http://localhost:3001/updatebook/${obj.id}`,obj)
+    .put(`https://bookshop767676767676.herokuapp.com/updatebook/${obj.id}`,obj)
     .then(result=>{
 
         
@@ -29,12 +26,9 @@ class UpdateBook extends React.Component{
        
       
     })
-
-    
-  
+ 
 
 }
-
 
 
 render(){
