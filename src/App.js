@@ -40,7 +40,7 @@ class App extends React.Component {
 
             </Route>
             <Route 
-               path="/profile"
+               path="/"
               element={!isAuthenticated &&<Welcome/>}
             >
 
