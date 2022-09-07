@@ -10,6 +10,7 @@ class ModalBook extends React.Component{
 
 handleData=(event)=>{
 
+
     event.preventDefault();
     const {user}=this.props.auth0
     const obj={
@@ -24,7 +25,7 @@ handleData=(event)=>{
 
     console.log(obj)
     axios
-    .post('http://localhost:3001/addbook',obj)
+    .post('https://bookshop767676767676.herokuapp.com/addbook',obj)
     .then(result=>{
         this.props.newData(result.data)
     })   

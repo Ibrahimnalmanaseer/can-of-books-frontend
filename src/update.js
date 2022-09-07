@@ -3,21 +3,25 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import axios from "axios";
-
+import { withAuth0 } from '@auth0/auth0-react';
 class UpdateBook extends React.Component{
+
 
 
 
     handleUp=(event)=>{
     event.preventDefault();
+    const{user}=this.props.auth0;
+    
     const obj={
         id:this.props.itemData._id,
         title:event.target.title.value,
-        description:event.target.bookdisc.value
+        description:event.target.bookdisc.value,
+        email:user.email
        }
 
     axios
-    .put(`http://localhost:3001/updatebook/${obj.id}`,obj)
+    .put(`https://bookshop767676767676.herokuapp.com/updatebook/${obj.id}`,obj)
     .then(result=>{
 
         
@@ -74,4 +78,4 @@ render(){
 
 
 
-export default UpdateBook;
+export default withAuth0(UpdateBook);

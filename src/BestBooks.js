@@ -25,7 +25,9 @@ class BestBooks extends React.Component {
 
   componentDidMount=async()=>{
 
-    await axios.get('http://localhost:3001/books')
+    const{user}=this.props.auth0
+
+    await axios.get(`https://bookshop767676767676.herokuapp.com/books?email=${user.email}`)
     .then(result=>{
 
       this.setState({
@@ -37,9 +39,10 @@ class BestBooks extends React.Component {
   }
   deleteHandle=(id)=>{
   
+    const{user}=this.props.auth0
   
     axios
-    .delete(`http://localhost:3001/deletebook/${id}`) 
+    .delete(`https://bookshop767676767676.herokuapp.com/deletebook/${id}/${user.email}`,{data:{email:user.email}}) 
     .then(result =>{
       this.setState({
         books:result.data
@@ -47,7 +50,6 @@ class BestBooks extends React.Component {
       
   
    })}
-
 
 
   
@@ -103,7 +105,7 @@ handleCloseUpdate=()=>{
 
     /* TODO: render all the books in a Carousel */
 
-    const {user}=this.props.auth0 ;
+    
     
     return (
 
@@ -120,20 +122,18 @@ handleCloseUpdate=()=>{
         <h2>My Essential Lifelong Learning amp; Formation Shelf</h2>
 
         <Button variant="secondary"  onClick={this.handlebutton}>ADD YOUR FAV BOOK! </Button>
-                    {this.state.books.length ?  
+                    {this.state.books.length ?  (
 
                     
 
                     <Carousel>
-                                         
-                      {
-                      
-                      
-                      
-                      this.state.books.map(item => {
 
-                        return item.email === user.email ? ( 
+                      
+                      
+                      {this.state.books.map(item => {
 
+                        
+                        return (
                         <Carousel.Item>
                           <img
                             className="d-block w-100"
@@ -152,16 +152,15 @@ handleCloseUpdate=()=>{
                             <Button variant="primary"  onClick={this.handleUpdate}>Update Info</Button>
                           </Carousel.Caption>
                         </Carousel.Item>     
+                  
+                      ) } ) }
                       
-                        )
-                      
-                  : (
-                    <h3> t</h3>
-                  ) }) }
+                  
+                
             </Carousel>
-            
+
                  
-        : (
+       ) : (
           <h3>No Books Found :(</h3>
         )}
 
