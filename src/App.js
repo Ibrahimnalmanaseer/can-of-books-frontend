@@ -27,7 +27,7 @@ class App extends React.Component {
 
             <Route 
               path="/"
-              element={ isAuthenticated &&  <BestBooks />}
+              element={ isAuthenticated ? <BestBooks />: <Welcome/> }
               >
 
 
