@@ -3,6 +3,7 @@ import Header from './Header';
 import Footer from './Footer';
 import BestBooks from './BestBooks';
 import Profile from './profile';
+import Welcome from './welcome';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { withAuth0 } from '@auth0/auth0-react';
 import {
@@ -38,7 +39,13 @@ class App extends React.Component {
 
 
             </Route>
+            <Route 
+               path="/profile"
+              element={!isAuthenticated &&<Welcome/>}
+            >
 
+
+            </Route>
 
 
             
