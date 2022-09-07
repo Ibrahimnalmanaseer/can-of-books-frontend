@@ -5,6 +5,10 @@ import ModalBook  from './modal';
 import Button from 'react-bootstrap/Button';
 import Carousel from 'react-bootstrap/Carousel';
 import UpdateBook from './update';
+import { withAuth0 } from '@auth0/auth0-react';
+
+
+
 
 class BestBooks extends React.Component {
   constructor(props) {
@@ -21,7 +25,7 @@ class BestBooks extends React.Component {
 
   componentDidMount=async()=>{
 
-    await axios.get('https://bookshop767676767676.herokuapp.com/books')
+    await axios.get('http://localhost:3001/books')
     .then(result=>{
 
       this.setState({
@@ -35,7 +39,7 @@ class BestBooks extends React.Component {
   
   
     axios
-    .delete(`https://bookshop767676767676.herokuapp.com/deletebook/${id}`) 
+    .delete(`http://localhost:3001/deletebook/${id}`) 
     .then(result =>{
       this.setState({
         books:result.data
@@ -99,13 +103,21 @@ handleCloseUpdate=()=>{
 
     /* TODO: render all the books in a Carousel */
 
+    const {user}=this.props.auth0 ;
+    
     return (
+
+
       <>
+        
+       
+     
+
         <ModalBook newData={this.updateBooks} show={this.state.show}  closeShow={this.handeleclose} />
          
        
 
-        <h2>My Essential Lifelong Learning &amp; Formation Shelf</h2>
+        <h2>My Essential Lifelong Learning amp; Formation Shelf</h2>
 
         <Button variant="secondary"  onClick={this.handlebutton}>ADD YOUR FAV BOOK! </Button>
                     {this.state.books.length ?  
@@ -113,27 +125,39 @@ handleCloseUpdate=()=>{
                     
 
                     <Carousel>
-                      {this.state.books.map(item => (
-                      <Carousel.Item>
-                        <img
-                          className="d-block w-100"
-                          src={img}
-                          alt={item.title}
-                          style={{height: 400 , width:100}}/>
+                                         
+                      {
                       
-                        <Carousel.Caption>
-                        
-                          <h3>{item.title}</h3>
-                          <p>{item.description}</p>
-                          <p>{item.status}</p>
-                          <UpdateBook showupdate={this.state.showupdate} updatedData={this.updateBooks}  itemData={item}  showUpdateClose={this.handleCloseUpdate }/>
-                        
-                          <Button variant="danger" style={{marginRight:20}} onClick={()=>this.deleteHandle(item._id)}>Delete Book </Button>
-                          <Button variant="primary"  onClick={this.handleUpdate}>Update Info</Button>
-                        </Carousel.Caption>
-                      </Carousel.Item>       
                       
-                     ) )}
+                      
+                      this.state.books.map(item => {
+
+                        return item.email === user.email ? ( 
+
+                        <Carousel.Item>
+                          <img
+                            className="d-block w-100"
+                            src={img}
+                            alt={item.title}
+                            style={{height: 400 , width:100}}/>
+                        
+                          <Carousel.Caption>
+                          
+                            <h3>{item.title}</h3>
+                            <p>{item.description}</p>
+                            <p>{item.status}</p>
+                            <UpdateBook showupdate={this.state.showupdate} updatedData={this.updateBooks}  itemData={item}  showUpdateClose={this.handleCloseUpdate }/>
+                          
+                            <Button variant="danger" style={{marginRight:20}} onClick={()=>this.deleteHandle(item._id)}>Delete Book </Button>
+                            <Button variant="primary"  onClick={this.handleUpdate}>Update Info</Button>
+                          </Carousel.Caption>
+                        </Carousel.Item>     
+                      
+                        )
+                      
+                  : (
+                    <h3> t</h3>
+                  ) }) }
             </Carousel>
             
                  
@@ -141,10 +165,15 @@ handleCloseUpdate=()=>{
           <h3>No Books Found :(</h3>
         )}
 
+
+
       </>
+
+      
     )
+    
   }
 }
 
-export default BestBooks;
+export default withAuth0(BestBooks) ;
 
